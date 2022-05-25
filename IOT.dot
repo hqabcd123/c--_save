@@ -1,0 +1,32 @@
+digraph IOT {
+    graph [label="系統架構圖", fontsize=24, rankdir=TB, splines=false, size="40, 40!", fixedsize=true
+        , nodesep=1.2]
+    node[shape=record]
+   {rank=same ThingWorx}
+   {rank=min Server}
+   {rank=same PI, API, Client}
+   {rank=max VS, AS, IS, Camera, traffic_light}
+
+   ThingWorx [label="ThingWorx", shape=box]
+   Server [label="Server", shape=box, width=7]
+   API [label="交通局API", shape=box]
+   PI [label="Raspberry PI", shape=box, width=5]
+   Client [label="Client", shape=box]
+   DataBase [label="{日子 | 地區 | 當天總流量 | {紅綠燈編號 | 更改時間 | 更改狀態 | {原本間隔 | 調整後間隔 | 紅綠燈調整秒數 | 當時車流量}}} | <f0> DataBase", shape=Mrecord]
+   VS [label="Velocity sensor"]
+   AS [label="Acceleration sensor"]
+   IS [label="Infrared sensor"]
+   Camera [label="Camera"]
+   traffic_light {label="traffic light"}
+
+   PI:n -> Server:s [label="data transform", dir=both, style=solid]
+   VS:n -> PI:se [label="data transform", style=solid]
+   AS:n -> PI:sw [label="data transform", style=solid]
+   IS:n -> PI [label="data transform", style=solid]
+   Camera:n -> PI [label="data transform", style=solid]
+   PI -> traffic_light [label="control", style=solid]
+   Server:s -> Client:n [label="receive data", style=solid, dir=both]
+   Server:se -> API:w [label="request", style=solid, dir=both]
+   Server:sw -> DataBase:f0 [label="request", style=solid, dir=both]
+   DataBase:f0 -> ThingWorx:n [label="receive data", style=solid, dir=both]
+}

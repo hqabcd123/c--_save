@@ -1,0 +1,14 @@
+digraph{
+	rankdir = LR
+	INIT [shape=point]
+	a [label="a"]
+	b [label="b"]
+	c [label="c"]
+	INIT -> a
+	a->a [label="0/0"]
+	a->c [label="1/0"]
+	b->a [label="0/0"]
+	b->b [label="1/0"]
+	c->d [label="0/0"]
+	c->b [label="1/1"]
+}
